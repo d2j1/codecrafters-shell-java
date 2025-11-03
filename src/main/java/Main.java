@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -64,8 +65,25 @@ public class Main {
 
         if(builtIns.contains(target)){
             System.out.println(target+" is a shell builtin");
-        }else{
-            System.out.println(target+ ": not found");
+            return;
         }
+
+        String pathEnv = System.getenv("PATH");
+
+        if(pathEnv != null){
+            String[] paths = pathEnv.split(":");
+
+            for(String dir : paths){
+                File file = new File(dir, target);
+
+                if(file.exists() && file.canExecute()){
+                    System.out.println(target+ " is "+ file.getAbsolutePath());
+                    return;
+                }
+            }
+        }
+
+            System.out.println(target+ ": not found");
+
     }
 }
