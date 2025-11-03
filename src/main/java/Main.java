@@ -9,13 +9,25 @@ public class Main {
         while(true){
 
             System.out.print("$ ");
-            String command = scanner.nextLine();
+
+            //block untill user press enter
+            if(!scanner.hasNextLine()){
+                break;
+            }
+
+
+            String command = scanner.nextLine().trim();
 
             if(command.isEmpty()){
+
                 System.out.println("This is valid command");
-            }else{
-                System.out.println(command + ": command not found");
             }
+
+            if(command.equalsIgnoreCase("exit")){
+                break;
+            }
+            System.out.println(command + ": command not found");
+
         }
 
     }
