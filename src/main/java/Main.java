@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -15,24 +16,32 @@ public class Main {
                 break;
             }
 
+            String line = scanner.nextLine().trim();
 
-            String command = scanner.nextLine().trim();
+            if(line.isEmpty()){
+                continue;
+            }
 
+            String[] parts = line.split("\\s+");
+            String command = parts[0];
+            String[] cmdArgs = Arrays.copyOfRange(parts, 1, parts.length);
 
-
-            if(command.equalsIgnoreCase("exit 0")){
+            if(command.equalsIgnoreCase("exit")){
                 break;
-            }
-
-            if(command.isEmpty()){
-
-                System.out.println("This is valid command");
-            }
-
+            }else if( command.equals("echo")){
+                handleEcho(cmdArgs);
+            }else {
             System.out.println(command + ": command not found");
+            }
+
 
         }
 
+        scanner.close();
+
     }
 
+    private static void handleEcho(String[] args){
+        System.out.println(String.join(" ",args));
+    }
 }
