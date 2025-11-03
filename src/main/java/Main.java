@@ -18,14 +18,17 @@ public class Main {
 
             String command = scanner.nextLine().trim();
 
+
+
+            if(command.equalsIgnoreCase("exit 0")){
+                break;
+            }
+
             if(command.isEmpty()){
 
                 System.out.println("This is valid command");
             }
 
-            if(command.equalsIgnoreCase("exit")){
-                break;
-            }
             System.out.println(command + ": command not found");
 
         }
