@@ -55,7 +55,7 @@ public class Main {
         String executablePath = findExecutable(command);
 
         if(executablePath == null){
-            System.out.println("Program was passed "+ cmdArgs.length+" args (including program name).");
+            System.out.println( command +": command not found");
             return;
         }
 
