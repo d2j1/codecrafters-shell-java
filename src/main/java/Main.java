@@ -1,8 +1,6 @@
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -43,12 +41,63 @@ public class Main {
 
                 default:
                     System.out.println(command + ": command not found");
+                    handleExternalCommands(command, cmdArgs);
 
             }
         }
 
         scanner.close();
 
+    }
+
+    private static void handleExternalCommands(String command, String[] cmdArgs) {
+
+        String executablePath = findExecutable(command);
+
+        if(executablePath == null){
+            System.out.println(command +": command not found");
+            return;
+        }
+
+//        preparing command + arguments
+        List<String> cmdList = new ArrayList<>();
+        cmdList.add(executablePath);
+        cmdList.addAll( Arrays.asList(cmdArgs));
+
+        // running the command using process builder
+        ProcessBuilder pb = new ProcessBuilder(cmdList);
+        pb.inheritIO(); // redirecting process output to shell output screen
+
+        try{
+            Process process = pb.start();
+            process.waitFor();
+        } catch (InterruptedException e) {
+            System.out.println("Error executing command: " + e.getMessage());
+        } catch (IOException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private static String findExecutable(String command){
+
+        // checking absolute and relative paths first
+        File direct = new File(command);
+        if( direct.exists() && direct.canExecute()){
+            return direct.getAbsolutePath();
+        }
+
+        // otherwise searching all of the paths for command
+        String pathEnv = System.getenv("PATH");
+
+        if(pathEnv != null){
+            for( String dir : pathEnv.split(":")){
+                File file = new File(dir, command);
+                if(file.exists() && file.canExecute()){
+                    return file.getAbsolutePath();
+                }
+            }
+        }
+        return null;
     }
 
     private static void handleEcho(String[] args){
