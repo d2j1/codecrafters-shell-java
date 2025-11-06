@@ -61,7 +61,7 @@ public class Main {
 
 //        preparing command + arguments
         List<String> cmdList = new ArrayList<>();
-        cmdList.add(executablePath);
+        cmdList.add(command);
         cmdList.addAll( Arrays.asList(cmdArgs));
 
         // running the command using process builder
