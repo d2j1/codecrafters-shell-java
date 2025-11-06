@@ -117,7 +117,7 @@ public class Main {
             return;
         }
 
-        Set<String> builtIns = new HashSet<>(Arrays.asList("echo","exit","type"));
+        Set<String> builtIns = new HashSet<>(Arrays.asList("echo","exit","type", "pwd"));
         String target = args[0];
 
         if(builtIns.contains(target)){
