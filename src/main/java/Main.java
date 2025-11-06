@@ -40,7 +40,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println(command + ": command not found");
+//                    System.out.println(command + ": command not found");
                     handleExternalCommands(command, cmdArgs);
 
             }
@@ -55,7 +55,7 @@ public class Main {
         String executablePath = findExecutable(command);
 
         if(executablePath == null){
-            System.out.println(command +": command not found");
+            System.out.println("Program was passed "+ cmdArgs.length+" args (including program name).");
             return;
         }
 
