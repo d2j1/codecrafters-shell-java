@@ -38,6 +38,9 @@ public class Main {
                 case "type":
                     handleType(cmdArgs);
                     break;
+                case "pwd":
+                    handlePWD();
+                    break;
 
                 default:
 //                    System.out.println(command + ": command not found");
@@ -48,6 +51,11 @@ public class Main {
 
         scanner.close();
 
+    }
+
+    private static void handlePWD() {
+        String cwd = System.getProperty("user.dir");
+        System.out.println(cwd);
     }
 
     private static void handleExternalCommands(String command, String[] cmdArgs) {
