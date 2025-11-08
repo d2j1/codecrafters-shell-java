@@ -5,17 +5,13 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        // TODO: Uncomment the code below to pass the first stage
-
         Scanner scanner = new Scanner(System.in);
         System.out.print("$ ");
 
-        while(scanner.hasNextLine()){
+        while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
 
-
-            //block untill user press enter
-            if(line.isEmpty()){
+            if (line.isEmpty()) {
                 System.out.print("$ ");
                 continue;
             }
@@ -24,7 +20,7 @@ public class Main {
             String command = parts[0];
             String[] cmdArgs = Arrays.copyOfRange(parts, 1, parts.length);
 
-            switch (command){
+            switch (command) {
                 case "exit":
                     return;
 
@@ -35,24 +31,25 @@ public class Main {
                 case "type":
                     handleType(cmdArgs);
                     break;
+
                 case "pwd":
                     handlePWD();
                     break;
+
                 case "cd":
                     handleCD(cmdArgs);
                     break;
 
                 default:
-//                    System.out.println(command + ": command not found");
                     handleExternalCommands(command, cmdArgs);
-
             }
+
             System.out.print("$ ");
         }
 
         scanner.close();
-
     }
+
 
 
     private static void handleCD(String[] cmdArgs) {
