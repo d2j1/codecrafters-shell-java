@@ -7,19 +7,15 @@ public class Main {
         // TODO: Uncomment the code below to pass the first stage
 
         Scanner scanner = new Scanner(System.in);
+        System.out.print("$ ");
 
-        while(true){
-
+        while(scanner.hasNextLine()){
+        String line = scanner.nextLine().trim();
 
 
             //block untill user press enter
-            if(!scanner.hasNextLine()){
-                break;
-            }
-
-            String line = scanner.nextLine().trim();
-
             if(line.isEmpty()){
+                System.out.println("$ ");
                 continue;
             }
 
