@@ -54,7 +54,18 @@ public class Main {
     }
 
     private static void handleCD(String[] args) {
+
+
+
         if (args.length == 0) {
+            return;
+        }
+
+        if(args[0].equals("~")){
+            String home = System.getenv("HOME");
+            if (home != null && !home.isEmpty()) {
+                System.setProperty("user.dir", home);
+            }
             return;
         }
 
@@ -77,6 +88,7 @@ public class Main {
 
 
         try {
+            // normalizing paths like ./ or ../
             String newPath = dir.getCanonicalPath();
             System.setProperty("user.dir", newPath);
         } catch (IOException e) {
