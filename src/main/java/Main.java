@@ -66,25 +66,30 @@ public class Main {
 
         String path = cmdArgs[0];
         File dir = new File(path);
+        File targetDir;
 
         // check if absolute path
         if(!path.startsWith("/")){
             System.out.println("cd: " + path + ": No such file or directory");
             return;
-        }
-
-        // check if directory exists
-        if(!dir.exists() || !dir.isDirectory() ){
-            System.out.println("cd: " + path + ": No such file or directory");
-            return;
-        }
-
-        // changing directory
-        boolean success = dir.exists() && dir.isDirectory();
-
-        if(success){
-            System.setProperty("user.dir", dir.getAbsolutePath());
         }else{
+            // relative path
+            String currentDir = System.getProperty("user.dir");
+            targetDir = new File(currentDir, path);
+        }
+
+        try{
+            // below normalizes the paths like ./ or ../
+            File canonical = targetDir.getCanonicalFile();
+
+            if(canonical.exists() && canonical.isDirectory()){
+                System.setProperty("user.dir", canonical.getAbsolutePath());
+
+            }else{
+                System.out.println("cd: " + path + ": No such file or directory");
+            }
+
+        } catch (IOException e) {
             System.out.println("cd: " + path + ": No such file or directory");
         }
     }
