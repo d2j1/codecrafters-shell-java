@@ -10,7 +10,7 @@ public class Main {
 
         while(true){
 
-            System.out.print("$ ");
+
 
             //block untill user press enter
             if(!scanner.hasNextLine()){
@@ -50,6 +50,7 @@ public class Main {
                     handleExternalCommands(command, cmdArgs);
 
             }
+            System.out.print("$ ");
         }
 
         scanner.close();
@@ -84,6 +85,7 @@ public class Main {
 
             if(canonical.exists() && canonical.isDirectory()){
                 System.setProperty("user.dir", canonical.getAbsolutePath());
+                System.out.println("$");
 
             }else{
                 System.out.println("cd: " + path + ": No such file or directory");
