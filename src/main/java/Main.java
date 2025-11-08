@@ -67,7 +67,7 @@ public class Main {
 
         // check if absolute path
         if(!path.startsWith("/")){
-            System.out.println("cd: " + path + ": No such file or directory");
+            targetDir = new File(path);
             return;
         }else{
             // relative path
@@ -75,21 +75,19 @@ public class Main {
             targetDir = new File(currentDir, path);
         }
 
-        try{
-            // below normalizes the paths like ./ or ../
-            File canonical = targetDir.getCanonicalFile();
-
-            if(canonical.exists() && canonical.isDirectory()){
+        if(targetDir.exists() && targetDir.isDirectory()){
+            try{
+                // below normalizes the paths like ./ or ../
+                File canonical = targetDir.getCanonicalFile();
                 System.setProperty("user.dir", canonical.getAbsolutePath());
-                System.out.println("$");
 
-            }else{
-                System.out.println("cd: " + path + ": No such file or directory");
+            } catch (IOException e) {
+                System.setProperty("user.dir", targetDir.getAbsolutePath());
             }
-
-        } catch (IOException e) {
+        }else {
             System.out.println("cd: " + path + ": No such file or directory");
         }
+
     }
 
     private static void handlePWD() {
