@@ -41,6 +41,9 @@ public class Main {
                 case "pwd":
                     handlePWD();
                     break;
+                case "cd":
+                    handleCD(cmdArgs);
+                    break;
 
                 default:
 //                    System.out.println(command + ": command not found");
@@ -51,6 +54,39 @@ public class Main {
 
         scanner.close();
 
+    }
+
+
+
+    private static void handleCD(String[] cmdArgs) {
+
+        if(cmdArgs.length == 0){
+            return;
+        }
+
+        String path = cmdArgs[0];
+        File dir = new File(path);
+
+        // check if absolute path
+        if(!path.startsWith("/")){
+            System.out.println("cd: " + path + ": No such file or directory");
+            return;
+        }
+
+        // check if directory exists
+        if(!dir.exists() || !dir.isDirectory() ){
+            System.out.println("cd: " + path + ": No such file or directory");
+            return;
+        }
+
+        // changing directory
+        boolean success = dir.exists() && dir.isDirectory();
+
+        if(success){
+            System.setProperty("user.dir", dir.getAbsolutePath());
+        }else{
+            System.out.println("cd: " + path + ": No such file or directory");
+        }
     }
 
     private static void handlePWD() {
