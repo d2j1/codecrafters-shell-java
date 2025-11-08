@@ -7,12 +7,14 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         System.out.print("$ ");
+        System.out.flush();
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
 
             if (line.isEmpty()) {
                 System.out.print("$ ");
+                System.out.flush();
                 continue;
             }
 
@@ -45,6 +47,7 @@ public class Main {
             }
 
             System.out.print("$ ");
+            System.out.flush();
         }
 
         scanner.close();
