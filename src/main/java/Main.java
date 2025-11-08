@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
+
     public static void main(String[] args) throws Exception {
         // TODO: Uncomment the code below to pass the first stage
 
@@ -10,12 +11,12 @@ public class Main {
         System.out.print("$ ");
 
         while(scanner.hasNextLine()){
-        String line = scanner.nextLine().trim();
+            String line = scanner.nextLine().trim();
 
 
             //block untill user press enter
             if(line.isEmpty()){
-                System.out.println("$ ");
+                System.out.print("$ ");
                 continue;
             }
 
@@ -52,7 +53,6 @@ public class Main {
         scanner.close();
 
     }
-
 
 
     private static void handleCD(String[] cmdArgs) {
