@@ -53,9 +53,39 @@ public class Main {
         scanner.close();
     }
 
+    private static void handleCD(String[] args) {
+        if (args.length == 0) {
+            return;
+        }
+
+        String path = args[0];
+        File dir;
+
+        if (path.startsWith("/")) {
+            // absolute path
+            dir = new File(path);
+        } else {
+            // relative path
+            dir = new File(System.getProperty("user.dir"), path);
+        }
 
 
-    private static void handleCD(String[] cmdArgs) {
+        if (!dir.isDirectory()) {
+            System.out.println("cd: " + path + ": No such file or directory");
+            return;
+        }
+
+
+        try {
+            String newPath = dir.getCanonicalPath();
+            System.setProperty("user.dir", newPath);
+        } catch (IOException e) {
+            System.out.println("cd: " + path + ": No such file or directory");
+        }
+    }
+
+
+    private static void handleCD2(String[] cmdArgs) {
 
         if(cmdArgs.length == 0){
             return;
@@ -91,8 +121,7 @@ public class Main {
     }
 
     private static void handlePWD() {
-        String cwd = System.getProperty("user.dir");
-        System.out.println(cwd);
+        System.out.println(System.getProperty("user.dir"));
     }
 
     private static void handleExternalCommands(String command, String[] cmdArgs) {
