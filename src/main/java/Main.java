@@ -18,9 +18,15 @@ public class Main {
                 continue;
             }
 
-            String[] parts = line.split("\\s+");
-            String command = parts[0];
-            String[] cmdArgs = Arrays.copyOfRange(parts, 1, parts.length);
+            List<String> partsList = parseCommandLine(line);
+            if(partsList.isEmpty()){
+                System.out.print("$ ");
+                System.out.flush();
+                continue;
+            }
+
+            String command = partsList.get(0);
+            String[] cmdArgs = partsList.subList(1, partsList.size()).toArray(new String[0]);
 
             switch (command) {
                 case "exit":
@@ -53,6 +59,35 @@ public class Main {
         scanner.close();
     }
 
+    private static List<String> parseCommandLine(String line){
+
+        List<String> tokens = new ArrayList<>();
+        StringBuilder current = new StringBuilder();
+        boolean inSingleQuote = false;
+
+        for(int i=0; i<line.length(); i++){
+            char c = line.charAt(i);
+
+            if( c == '\''){
+                // toggle single quote state
+                inSingleQuote = !inSingleQuote;
+            }else if(Character.isWhitespace(c) && !inSingleQuote){
+                // space outside quotes then it is a separate argument
+                if(!current.isEmpty()){
+                    tokens.add(current.toString());
+                    current.setLength(0);
+                }
+            }else{
+                // normal character
+                current.append(c);
+            }
+        }
+
+        if(!current.isEmpty()){
+            tokens.add(current.toString());
+        }
+        return tokens;
+    }
     private static void handleCD(String[] args) {
 
 
@@ -94,42 +129,6 @@ public class Main {
         } catch (IOException e) {
             System.out.println("cd: " + path + ": No such file or directory");
         }
-    }
-
-
-    private static void handleCD2(String[] cmdArgs) {
-
-        if(cmdArgs.length == 0){
-            return;
-        }
-
-        String path = cmdArgs[0];
-        File dir = new File(path);
-        File targetDir;
-
-        // check if absolute path
-        if(!path.startsWith("/")){
-            targetDir = new File(path);
-            return;
-        }else{
-            // relative path
-            String currentDir = System.getProperty("user.dir");
-            targetDir = new File(currentDir, path);
-        }
-
-        if(targetDir.exists() && targetDir.isDirectory()){
-            try{
-                // below normalizes the paths like ./ or ../
-                File canonical = targetDir.getCanonicalFile();
-                System.setProperty("user.dir", canonical.getAbsolutePath());
-
-            } catch (IOException e) {
-                System.setProperty("user.dir", targetDir.getAbsolutePath());
-            }
-        }else {
-            System.out.println("cd: " + path + ": No such file or directory");
-        }
-
     }
 
     private static void handlePWD() {
