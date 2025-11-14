@@ -64,14 +64,19 @@ public class Main {
         List<String> tokens = new ArrayList<>();
         StringBuilder current = new StringBuilder();
         boolean inSingleQuote = false;
+        boolean inDoubleQuote = false;
 
         for(int i=0; i<line.length(); i++){
             char c = line.charAt(i);
 
-            if( c == '\''){
-                // toggle single quote state
+            if( c == '\'' && !inDoubleQuote){
+                // toggle single quote state (only if not inside double quotes)
                 inSingleQuote = !inSingleQuote;
-            }else if(Character.isWhitespace(c) && !inSingleQuote){
+            }else if( c == '"' && !inSingleQuote){
+                // toggle double quote state (only if not inside single quote)
+                inDoubleQuote = !inDoubleQuote;
+
+            }else if(Character.isWhitespace(c) && !inSingleQuote && !inDoubleQuote){
                 // space outside quotes then it is a separate argument
                 if(!current.isEmpty()){
                     tokens.add(current.toString());
